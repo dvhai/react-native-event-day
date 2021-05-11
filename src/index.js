@@ -141,7 +141,7 @@ var hours = Array(24)
     .fill(0)
     .map(function (_, i) { return i; });
 function formatHour(hour, format24h) {
-    if(format24h) {
+    if(format24h){
         return hour + ':00'
     }
     var ampm = hour >= 12 ? 'PM' : 'AM';
@@ -274,9 +274,9 @@ var styles = reactNative.StyleSheet.create({
 
 var SWIPE_THRESHOLD = 50;
 var HourGuideColumn = React.memo(function (_a) {
-    var cellHeight = _a.cellHeight, hour = _a.hour;
+    var cellHeight = _a.cellHeight, hour = _a.hour, format24h= _a.format24h;
     return (React.createElement(reactNative.View, { style: { height: cellHeight } },
-        React.createElement(reactNative.Text, { style: commonStyles.guideText }, formatHour(hour, _a.format24h))));
+        React.createElement(reactNative.Text, { style: commonStyles.guideText }, formatHour(hour, format24h))));
 }, function () { return true; });
 function HourCell(_a) {
     var cellHeight = _a.cellHeight, onPress = _a.onPress, date = _a.date, hour = _a.hour;
@@ -352,10 +352,10 @@ var CalendarBody = React.memo(function (_a) {
         { refreshControl: React.createElement(reactNative.RefreshControl, { refreshing: refreshing, onRefresh: function () { return refreshData() } }) }
     ),
         React.createElement(reactNative.View, __assign({ style: [styles$1.body] }, (reactNative.Platform.OS === 'web' ? panResponder.panHandlers : {})),
-            React.createElement(reactNative.View, { style: [commonStyles.hourGuide] }, hours.map(function (hour) { return (React.createElement(HourGuideColumn, { key: hour, cellHeight: cellHeight, hour: hour })); })),
+            React.createElement(reactNative.View, { style: [commonStyles.hourGuide] }, hours.map(function (hour) { return (React.createElement(HourGuideColumn, { key: hour, cellHeight: cellHeight, hour: hour, format24h })); })),
             dateRange.map(function (date, index) {
                 return (React.createElement(reactNative.View, { style: [{ flex: 1 }], key: index },
-                    React.createElement(reactNative.View, { style: [commonStyles.hourGuide] }, hours.map(function (hour) { return (React.createElement(HourGuideColumn, { key: hour, cellHeight: cellHeight, hour: hour, format24h: format24h })); })),
+                    hours.map(function (hour) { return (React.createElement(HourCell, { key: hour, cellHeight: cellHeight, date: date, hour: hour, onPress: _onPressCell })); }),
                     dayJsConvertedEvents
                         .filter(function (_a) {
                             var start = _a.start, end = _a.end;
@@ -481,7 +481,7 @@ var styles$2 = reactNative.StyleSheet.create({
 });
 
 var Calendar = React.memo(function (_a) {
-    var events = _a.events, _b = _a.style, style = _b === void 0 ? {} : _b, height = _a.height, _c = _a.mode, mode = _c === void 0 ? 'week' : _c, _d = _a.locale, locale = _d === void 0 ? 'en' : _d, refreshing = _a.refreshing, onRefresh = _a.onRefresh, eventCellStyle = _a.eventCellStyle, date = _a.date, _e = _a.scrollOffsetMinutes, scrollOffsetMinutes = _e === void 0 ? 0 : _e, _f = _a.swipeEnabled, swipeEnabled = _f === void 0 ? true : _f, _g = _a.weekStartsOn, weekStartsOn = _g === void 0 ? 0 : _g, _h = _a.showTime, showTime = _h === void 0 ? true : _h, onPressEvent = _a.onPressEvent, onPressDateHeader = _a.onPressDateHeader, onChangeDate = _a.onChangeDate, onPressCell = _a.onPressCell, onPressEventHeder = _a.onPressEventHeder, format24h = _a.format24h;
+    var events = _a.events, _b = _a.style, style = _b === void 0 ? {} : _b, height = _a.height, _c = _a.mode, mode = _c === void 0 ? 'week' : _c, _d = _a.locale, locale = _d === void 0 ? 'en' : _d, refreshing = _a.refreshing, onRefresh = _a.onRefresh, eventCellStyle = _a.eventCellStyle, date = _a.date, _e = _a.scrollOffsetMinutes, scrollOffsetMinutes = _e === void 0 ? 0 : _e, _f = _a.swipeEnabled, swipeEnabled = _f === void 0 ? true : _f, _g = _a.weekStartsOn, weekStartsOn = _g === void 0 ? 0 : _g, _h = _a.showTime, showTime = _h === void 0 ? true : _h, onPressEvent = _a.onPressEvent, onPressDateHeader = _a.onPressDateHeader, onChangeDate = _a.onChangeDate, onPressCell = _a.onPressCell, onPressEventHeder = _a.onPressEventHeder, format24h= _a.format24h;
     var _j = React.useState(dayjs__default['default'](date)), targetDate = _j[0], setTargetDate = _j[1];
     React.useEffect(function () {
         if (date) {
@@ -529,7 +529,7 @@ var Calendar = React.memo(function (_a) {
     };
     return (React.createElement(React.Fragment, null,
         React.createElement(CalendarHeader, __assign({}, commonProps, { allDayEvents: allDayEvents, onPressDateHeader: onPressDateHeader, onPressEventHeder: onPressEventHeder, onSwipeHorizontal: onSwipeHorizontal, scrollOffsetMinutes: scrollOffsetMinutes })),
-        React.createElement(CalendarBody, __assign({}, commonProps, { refreshing: refreshing, dayJsConvertedEvents: daytimeEvents, containerHeight: height, onPressEvent: onPressEvent, onPressCell: onPressCell, eventCellStyle: eventCellStyle, scrollOffsetMinutes: scrollOffsetMinutes, showTime: showTime, onSwipeHorizontal: onSwipeHorizontal, onRefresh: onRefresh, format24h : format24h }))));
+        React.createElement(CalendarBody, __assign({}, commonProps, { refreshing: refreshing, dayJsConvertedEvents: daytimeEvents, containerHeight: height, onPressEvent: onPressEvent, onPressCell: onPressCell, eventCellStyle: eventCellStyle, scrollOffsetMinutes: scrollOffsetMinutes, showTime: showTime, onSwipeHorizontal: onSwipeHorizontal, onRefresh: onRefresh, format24h: format24h }))));
 
 
 
